@@ -27,23 +27,14 @@ class ReqData:
         """
         print("Server Error:", msg)
 
+    @staticmethod
     def server_handler(self,msg):
         """
         A function that prints the messages from Interactive Brokers
         :param msg: the error message
         :return:
         """
-        # print("Server Msg:", msg.typeName, "-", msg)
-        if msg.typeName == "nextValidId":
-            self.order_id = msg.orderId
-        elif msg.typeName == "managedAccounts":
-            self.account_code = msg.accountsList
-        elif msg.typeName == "updatePortfolio" and msg.contract.m_symbol == self.symbol:
-            self.unrealized_pnl = msg.unrealizedPNL
-            self.realized_pnl = msg.realizedPNL
-            self.position = msg.position
-        elif msg.typeName == "error" and msg.id != -1:
-            return
+        print("Server Msg:", msg.typeName, "-", msg)
 
     def tick_event(self,msg):
         """

@@ -36,7 +36,7 @@ class ReqData:
         self.MSG_TYPE_HISTORICAL_DATA = "historicalData"
 
     @staticmethod
-    def error_handler(self,msg):
+    def error_handler(msg):
         """
         A function that prints the error messages from Interactive Brokers
         :param msg: the error message

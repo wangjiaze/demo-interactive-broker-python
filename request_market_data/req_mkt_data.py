@@ -11,8 +11,9 @@ class ReqData:
         self.port = 7497
         self.client_id = 1
         self.order_id = 1
-        self.account_code = None
-        self.symbol = 'FB'
+        self.account_code = 'DU434966'
+        # self.account_code = 'U1808793'
+        self.symbol = 'AAPL'
         self.symbol_id = 0
         self.tick_counter = 0
         self.max_ticks = 20
@@ -31,7 +32,7 @@ class ReqData:
         """
         print("-> Server Error:", msg)
 
-    def server_handler(self,msg):
+    def server_handler(self, msg):
         """
         A function that prints the messages from Interactive Brokers
         :param msg: the error message
@@ -59,8 +60,8 @@ class ReqData:
         # https://www.interactivebrokers.co.uk/en/software/api/apiguide/java/tickprice.htm
         # https://www.interactivebrokers.co.uk/en/software/api/apiguide/java/ticksize.htm
 
-        print("\ntick_counter = ", self.tick_counter, " time = ", dt.datetime.now())
-        print("msg =  ",msg)
+        # print("\ntick_counter = ", self.tick_counter, " time = ", dt.datetime.now())
+        # print("msg =  ",msg)
 
         if self.tick_counter > self.max_ticks :
             # raise Exception('Maximum number of ticks reached')
@@ -109,10 +110,18 @@ class ReqData:
                 'SMART',
                 'USD'
             )
+            # generic_tick_keys = '100,101,104,106,165,221,225,236'
             # request market data
-            self.tws_conn.reqMktData(self.symbol_id, stk_contract, '', False)
+            print("request market data")
+            self.tws_conn.reqMktData(self.symbol_id, stk_contract, '236', False)
+            # TODO: WITH THIS REQUEST IS RELATIVELY EASY TO COLLECT INFO 46 (SHORTABLE INDEX)
+            # TODO: AND 49 (HALTED) THAT CAN BE USED TO DECIDE IF TO GO AHEAD WITH THE TRADE OR NOT
+            # TODO: IMPLEMENT THESE TWO DIRECTLY, WITHOUT TRYING TO USE MEDICI'S CONTRACTS
+            # TODO: (DEVELOPED FOR A DIFFERENT REASON)
+
             time.sleep(1)
-            self.tws_conn.reqAccountUpdates(True, self.account_code)
+            print("request account updates")
+            # self.tws_conn.reqAccountUpdates(True, self.account_code)
 
             while self.wait_for_message:
                 time.sleep(1)
